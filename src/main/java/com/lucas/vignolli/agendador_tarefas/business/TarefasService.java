@@ -10,7 +10,6 @@ import com.lucas.vignolli.agendador_tarefas.infrastructure.exceptions.ResourceNo
 import com.lucas.vignolli.agendador_tarefas.infrastructure.repository.TarefasRepository;
 import com.lucas.vignolli.agendador_tarefas.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.LifecycleState;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,8 +39,8 @@ public class TarefasService {
         return tarefaConverter.paraTarefaDto(tarefasRepository.save(entity));
     }
 
-    public List<TarefasDTO> buscaDataEvento(LocalDateTime dataInicial, LocalDateTime dataFinal) {
-        return tarefaConverter.paraListaTarefasDto(tarefasRepository.findByDataEventoBetween(dataInicial, dataFinal));
+    public List<TarefasDTO> buscaTarefasAgendadasPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal) {
+        return tarefaConverter.paraListaTarefasDto(tarefasRepository.findByDataEventoBetweenAndStatusNotificacaoEnum(dataInicial, dataFinal, StatusNotificacaoEnum.PENDENTE));
     }
 
     public List<TarefasDTO> buscaTarefasPorEmail(String token) {
